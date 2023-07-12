@@ -1,0 +1,5 @@
+C:\Users\1523789353\AppData\Local\NVIDIA\DXCache\*.*
+C:\Users\1523789353\AppData\Local\bilibili-updater\*.*
+C:\Users\1523789353\AppData\Local\CrashDumps\*.*
+C:\Users\1523789353\AppData\Roaming\Tencent\WeMeet\Global\Logs\*.*
+C:\ProgramData\MySQL\MySQL Installer for Windows\Product Cache\*.*

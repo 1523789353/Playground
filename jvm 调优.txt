@@ -1,0 +1,89 @@
+// 服务器
+java
+-server // 使用Server配置, 启动慢, 运行快 https://www.codenong.com/198577/
+-jar "forge-1.12.2-14.23.5.2847-universal.jar"
+
+-Xms1G // 设置初始化(最小)堆内存大小
+-Xmx4G // 设置最大可分配堆内存大小
+-XX:+AlwaysPreTouch // 预分配内存, 而不是虚拟内存. 减慢启动, 加快运行.
+-XX:+UseCompressedOops // 压缩指针, 更好地节省内存, 避免GC压力过大
+
+// 内存回收(GC)设定
+-XX:+UseG1GC // 使用G1 GC器
+-XX:+UseStringDeduplication // 字符串内存回收, 需要G1回收器
+-XX:MaxGCPauseMillis=100 // 每次年轻代垃圾回收的最长时间
+
+// 并行回收设定
+–XX:+UseParallelGC // 年轻代使用并行垃圾回收收集器。这是一个关注吞吐量的收集器, 可以尽可能地减少 GC 时间。
+–XX:+UseParallelOldGC // 年老代使用并行回收收集器。
+–XX:ParallelGC-Threads=8 // 用于垃圾回收的线程数
+-XX:+UseAdaptiveSizePolicy // 设置此选项后, 并行收集器会自动选择年轻代区大小和相应的Survivor区比例, 以达到目标系统规定的最低相应时间或者收集频率等, 此值建议使用并行收集器时, 一直打开
+-XX:+ParallelRefProcEnabled // 并行处理Reference对象
+
+// 缓解对象老化
+–XX:+SurvivorRatio=8 // 设置 Eden 区和 Survivor 区的比例为 8:1。稍大的 Survivor 空间可以提高在年轻代回收生命周期较短的对象的可能性, 如果 Survivor 不够大, 一些短命的对象可能直接进入年老代, 这对系统来说是不利的。
+-XX:+DisableExplicitGC // 禁止 java 程序中的 full gc, 如System.gc() 的调用.   * 可能会导致内存溢出
+-XX:TargetSurvivorRatio=90 // 将新对象预留在年轻代, 以减少Full GC带来的阻塞卡顿
+–XX:MaxTenuringThreshold=31 // 年轻对象晋升到年老代的年龄, 默认值15
+
+// 玄学
+-XX:+AggressiveOpts // 一些不明确的性能提升实验性功能, 在java11及以上版本被弃用
+-nogui
+
+
+
+
+
+// 客户端
+-server // 使用Server配置, 启动慢, 运行快 https://www.codenong.com/198577/
+-XX:+AlwaysPreTouch // 预分配内存, 而不是虚拟内存. 减慢启动, 加快运行.
+-XX:+UseCompressedOops // 压缩指针, 更好地节省内存, 避免GC压力过大
+
+// 内存回收(GC)设定
+-XX:+UseG1GC // 使用G1 GC器
+-XX:+UseStringDeduplication // 字符串内存回收, 需要G1回收器
+-XX:MaxGCPauseMillis=100 // 每次年轻代垃圾回收的最长时间
+
+// 并行回收设定
+–XX:+UseParallelGC // 年轻代使用并行垃圾回收收集器。这是一个关注吞吐量的收集器, 可以尽可能地减少 GC 时间。
+–XX:+UseParallelOldGC // 年老代使用并行回收收集器。
+–XX:ParallelGC-Threads=8 // 用于垃圾回收的线程数
+-XX:+UseAdaptiveSizePolicy // 设置此选项后, 并行收集器会自动选择年轻代区大小和相应的Survivor区比例, 以达到目标系统规定的最低相应时间或者收集频率等, 此值建议使用并行收集器时, 一直打开
+-XX:+ParallelRefProcEnabled // 并行处理Reference对象
+
+// 缓解对象老化
+–XX:+SurvivorRatio=8 // 设置 Eden 区和 Survivor 区的比例为 8:1。稍大的 Survivor 空间可以提高在年轻代回收生命周期较短的对象的可能性, 如果 Survivor 不够大, 一些短命的对象可能直接进入年老代, 这对系统来说是不利的。
+-XX:+DisableExplicitGC // 禁止 java 程序中的 full gc, 如System.gc() 的调用.   * 可能会导致内存溢出
+-XX:TargetSurvivorRatio=90 // 将新对象预留在年轻代, 以减少Full GC带来的阻塞卡顿
+–XX:MaxTenuringThreshold=31 // 年轻对象晋升到年老代的年龄, 默认值15
+
+// 玄学
+-XX:+AggressiveOpts // 一些不明确的性能提升实验性功能, 在java11及以上版本被弃用
+
+
+
+
+// 弃用
+-XX:+UnlockExperimentalVMOptions // 解锁实验参数
+–XX:+LargePageSizeInBytes=256m // 大内存分页
+
+-XX:+UseSerialGC // 开启串行收集器
+-XX:+UseConcMarkSweepGC // 开启老年代并发收集器(简称CMS), 可以和UseParallelGC一起使用
+-XX:CMSInitiatingOccupancyFraction=70 // 老年代内存使用比例到多少激活CMS收集器
+-XX:+UseCMSCompactAtFullCollection // 使用并发收集器时, 开启对年老代的压缩
+
+–XX:+UseParNewGC // 年轻代使用并行回收器  与UseParallelGC的区别 https://blog.csdn.net/leo187/article/details/88920036
+–XX:+UseConcMarkSweepGC // 年老代使用 CMS 收集器降低停顿
+
+-XX:G1NewSizePercent=50 // 新生代初始(最小)内存空间
+-XX:G1MaxNewSizePercent=80 // 新生代最大内存空间
+-XX:G1MixedGCLiveThresholdPercent=35 // 该参数的默认值是85%。规定只有存活对象低于85%的Region才可以被回收。
+
+
+// 编译
+function compileCommand(commandBlock) {
+    return commandBlock.split("\n") // 按行分割
+        .map(cmd => cmd.replaceAll(/(.*?)\/\/.*/g, '$1').trim()) // 去除注释
+        .filter(cmd => cmd.length > 0) // 去除空行
+        .join(' ')
+}

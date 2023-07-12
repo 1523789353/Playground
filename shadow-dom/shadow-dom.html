@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./util.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./shadow-dom.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		// 用不对称加密传输页面，以及混淆js
+		function shadowController(shadow) {
+			console.log(shadow);
+			shadow.document.body.innerHTML+='<div>防止前端爬这句话</div>'
+		}
+		new shadowDom(document.body).then(shadowController);
+	</script>
+</html>

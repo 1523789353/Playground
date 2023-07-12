@@ -1,0 +1,1 @@
+@tsc -lib dom,esnext -t esnext ../game.ts

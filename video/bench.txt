@@ -1,0 +1,34 @@
+codec: libx264
+round1:
+    bench: utime=82.266s stime=4.359s rtime=197.341s
+    bench: utime=48.000s stime=2.438s rtime=164.929s
+    bench: utime=52.141s stime=2.297s rtime=141.246s
+    avg: utime=60.8023 stime=3.0313 rtime=167.8393
+filesize: 39,714,900
+
+codec: h264_mf
+round1:
+    bench: utime=50.297s stime=3.297s rtime=190.260s
+    bench: utime=37.938s stime=2.141s rtime=154.309s
+    bench: utime=33.422s stime=2.062s rtime=130.403s
+    avg: utime=40.5523 stime=2.5000 rtime=158.6573
+filesize: 32,653,413
+
+codec: h264_nvenc (快, 文件大)
+round1:
+    bench: utime=39.000s stime=2.484s rtime=174.256s
+    bench: utime=35.781s stime=1.891s rtime=172.549s
+    bench: utime=21.656s stime=2.625s rtime=132.602s
+    avg: utime=32.1460 stime=2.3333 rtime=159.4690
+filesize: 130,983,295
+
+codec: h264_qsv (快, 文件小)
+round1:
+    bench: utime=36.953s stime=1.719s rtime=165.649s
+    bench: utime=53.938s stime=4.141s rtime=203.642s
+    bench: utime=33.625s stime=2.516s rtime=132.304s
+    avg: utime=41.8393 stime=2.7920 rtime=167.1983
+filesize: 26,466,879
+
+
+

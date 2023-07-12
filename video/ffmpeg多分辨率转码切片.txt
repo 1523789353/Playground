@@ -1,0 +1,93 @@
+忽略#开头的行, 并将每行以空格拼接
+
+#pc用  hls切片(m3u8/ts)  硬件加速  3种清晰度(16G及以下内存机型会报内存不足)
+ffmpeg
+-hwaccel cuda
+-c:v h264_cuvid
+-y
+-i "这是输入文件.mp4"
+-level 4.1
+-preset fast
+-g 120
+-sc_threshold 0
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+#-map 0:0 -map 0:1
+-s:v:0 1920*1080 -b:v:0 6000k
+-s:v:1 1280*720 -b:v:1 2800k
+-s:v:2 858*480 -b:v:2 1200k
+#-s:v:3 630*360 -b:v:3 650k
+-crf 23.5
+-c:v hevc_nvenc
+-c:a copy
+-var_stream_map "v:0,a:0,name:1080p v:1,a:1,name:720p v:2,a:2,name:480p"
+#"v:0,a:0,name:1080p v:1,a:1,name:720p v:2,a:2,name:480p v:3,a:3,name:360p"
+-f hls
+-hls_time 6
+-hls_playlist_type vod
+-hls_segment_type fmp4
+-master_pl_name master.m3u8
+-hls_segment_filename "/v%v/seg%d.ts" "v%v/index.m3u8"
+
+
+
+#服务器用  hls切片(m3u8/ts)  无硬件加速  4种清晰度
+ffmpeg
+#-hwaccel cuda
+#-c:v h264_cuvid
+-y
+-i "这是输入文件.mp4"
+-level 4.1
+-preset ultrafast
+-g 120
+-sc_threshold 0
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-s:v:0 1920*1080 -b:v:0 6000k -b:a:0 320k
+-s:v:1 1280*720 -b:v:1 2800k -b:a:1 160k
+-s:v:2 858*480 -b:v:2 1200k -b:a:1 140k
+-s:v:3 630*360 -b:v:3 650k -b:a:1 140k
+-crf 23.5
+#-c:v h264_nvenc
+-c:a copy
+-var_stream_map "v:0,a:0,name:1080p v:1,a:1,name:720p v:2,a:2,name:480p v:3,a:3,name:360p"
+-f hls
+-hls_time 6
+-hls_playlist_type vod
+-master_pl_name master.m3u8
+-hls_segment_filename "v%v/seg%d.ts" "v%v/index.m3u8"
+
+
+
+#服务器用  dash格式切片(m4s)  无硬件加速  4种清晰度
+ffmpeg
+#-hwaccel cuda
+-threads 0
+#-c:v h264_cuvid
+-y
+-i "这是输入文件.mp4"
+-level 4.1
+-preset ultrafast
+-g 48
+-sc_threshold 0
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-map 0:0 -map 0:1
+-s:v:0 1920*1080 -b:v:0 1800k
+-s:v:1 1280*720 -b:v:1 1200k
+-s:v:2 858*480 -b:v:2 750k
+-s:v:3 630*360 -b:v:3 550k
+-crf 23.5
+#-c:v h264_nvenc
+-c:a copy
+-var_stream_map "v:0,a:0,name:1080p v:1,a:1,name:720p v:2,a:2,name:480p v:3,a:3,name:360p"
+-f dash
+-seg_duration 6
+-init_seg_name "segs/index-$RepresentationID$.m4s"
+-media_seg_name "segs/seg-$RepresentationID$-$Number%05d$.m4s"
+#-hls_playlist "v%v/index.m3u8"
+master.mpd

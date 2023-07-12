@@ -1,0 +1,7 @@
+Dism /Export-Image /WIMBoot /SourceImageFile:D:\input.wim /SourceIndex:1 /DestinationImageFile:D:\wimboot.wim
+DISM /Apply-Image /ImageFile:D:\wimboot.wim /ApplyDir:E: /Index:1 /WIMBoot
+
+
+
+diskpart
+create vdisk file="D:\WIN8_CHILD VHD.vhdx" parent="D:\WIN8 VHD.vhdx"

@@ -1,0 +1,5 @@
+VendorName=Dell Inc.
+OemString=Model_File
+SystemName=Inspiron 14 7000 Gaming/Inspiron 15 7000 Gaming
+Version=1.15.0
+Model=077C,0798

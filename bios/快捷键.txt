@@ -1,0 +1,5 @@
+LG BIOS (Phoenix) 尝试 Shift+Ctrl+Alt 和（同时按住它们）F7
+F4, 4, R, F, V, F5, 5, T, G, B, F6, 6, Y, H, N
+按 Fn+Tab 三次，然后重新启动
+FN + TAB 键同时按 5 次
+启动计算机时按住 Fn+Tab，然后再进入 BIOS

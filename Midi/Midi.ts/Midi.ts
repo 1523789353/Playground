@@ -1,0 +1,7 @@
+enum MidiVersion {
+
+}
+
+class Midi {
+
+}

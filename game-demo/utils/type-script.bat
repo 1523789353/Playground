@@ -1,0 +1,1 @@
+@npm i typescript tsnode @types/node -g

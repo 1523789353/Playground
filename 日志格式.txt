@@ -1,0 +1,16 @@
+FILE_LOG_PATTERN
+%d{yyyy-MM-dd HH:mm:ss.SSS} %5p 9804 --- [%t] %-40.40logger{39} : %m%n%wEx
+FILE_LOG_CHARSET
+UTF-8
+PID
+9804
+CONSOLE_LOG_PATTERN
+%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(9804){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx
+CONSOLE_LOG_CHARSET
+UTF-8
+
+
+
+String.prototype.format = (function(map) {
+    return this.replace(/\$\{(.*?)\}/g, (_,i)=>map[i])
+})

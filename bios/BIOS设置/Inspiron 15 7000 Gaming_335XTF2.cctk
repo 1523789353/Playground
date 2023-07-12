@@ -1,0 +1,16 @@
+[cctk]
+CapsuleFirmwareUpdate=Disabled
+ExternalHotKey=Enabled
+FanCtrlOvrd=Enabled
+Fastboot=Auto
+FnLock=Enabled
+FnLockMode=EnableSecondary
+Keypad=EnabledByFnKey
+LogicProc=Enabled
+NumLock=Enabled
+SHA256=Enabled
+Speedstep=Enabled
+TurboMode=Enabled
+Virtualization=Enabled
+VtForDirectIo=Enabled
+;SfuEnabled=No

@@ -1,0 +1,134 @@
+-维护工具
+    -系统信息
+        CPU-Z
+        GPU-Z
+        CrystalDiskInfo
+        aida64
+    -超频
+        NVIDIA Inspector
+        Intel(R) Extreme Tuning Utility //XTU
+        MSI Afterburner
+        ThrottleStop
+    -跑分
+        CrystalDiskMark
+        HD Tune Pro
+        3DMark
+    -优化
+        Cacheman
+        Process Lasso
+        cFosSpeed
+        Defraggler
+        CCleaner
+        Dism++
+        Samsung Magician //三星魔术师
+        Disk Analyzer Pro
+        Driver Booster
+        GeForce Experience
+        NVIDIA控制面板 //N卡驱动面板
+        Intel® Rapid Storage Technology //英特尔快速存储驱动
+        Intel® Driver & Support Assistant //英特尔驱动更新助手
+        Logitech G HUB
+        UltraISO
+        DuplicateCleaner
+        RescuePRO Deluxe
+    BOOTICE
+    Logitech G HUB
+    ToDesk
+    DiskGenius
+    DriverStoreExplorer
+    Disk Analyzer Pro
+    SpaceSniffer
+
+-生产力
+    -多媒体处理
+        -Adobe全家桶
+            Media Encoder
+            Photoshop
+            Premiere Pro
+        OBS Studio
+        SpectraLayers
+        Topaz Video Enhance AI
+        小丸工具箱
+        格式工厂
+        OBS Studio
+    -视频播放解码
+        PotPlayer
+        Klite Code Pack
+        HEVC 视频扩展
+    -解压工具
+        Bandizip
+    -下载工具
+        BitComet
+        迅雷
+        百度网盘
+        阿里云盘
+    -文本编辑器
+        Sublime
+        Notepad3
+    -反编译
+        dnSpy
+        fernflower
+        jadx
+        jd-gui
+    -IDE
+        Visual Studio Code
+        Visual Studio 202x
+        IntelliJ IDEA
+        PyCharm
+        PhpStorm
+        HBuilderX
+    -API测试
+        Poatman
+        Apipost
+        Fiddler
+        Wireshark
+    -文稿
+        Word
+        Excel
+        PowerPoint
+        Visio
+    -开发环境
+        JDK
+        MySql
+        Redis
+        Nodejs
+        Yarn
+        Python
+        Git
+        TortoiseSVN
+        xampp
+    CHINER
+    RDM
+    Navicat Premium
+    有道云笔记
+    OneNote
+    腾讯会议
+
+-体验优化
+    Wallpaper Engine
+    UPUPOO
+    TranslucentTB
+    Dolby Access
+    DTS Sound Unbound
+
+-手机
+    iTunse
+    iCloud
+    爱思助手
+    AltServer
+    Odin
+
+-娱乐
+    -工具
+        BetterJoy //任天堂pro手柄驱动
+        Magpie //超分辨率缩放软件
+    -游戏
+        ...
+    -游戏平台
+        Steam
+        Epic
+        Ubisoft
+        Origin
+        GOG GALAXY
+        Rockstar Games
+    网易云音乐

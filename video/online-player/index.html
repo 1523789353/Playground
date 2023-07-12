@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- IE,我囸你仙人 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta http-equiv="Content-Language" content="ZH-CN">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="MSThemeCompatible" content="yes" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+	<title> </title>
+	<link rel="stylesheet" type="text/css" href="./default.css"/>
+	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js"></script>
+	<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/2.15.2/skins/default/aliplayer-min.css" />
+	<script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/de/prismplayer/2.15.2/aliplayer-min.js"></script>
+</head>
+<body>
+	<!-- 请您爪巴(误 -->
+	<noscript>您的浏览器不支持JavaScript,请更换浏览器后重试!</noscript>
+	<div class="prism-player" id="player-con">您的浏览器不支持HTML5,请更换浏览器后重试!</div>
+	<script>
+		var player = new Aliplayer({
+		  "id": "player-con",
+		  "width": "876px", "height": "493px",
+		  "autoplay": false, "isLive": false, "rePlay": false, "playsinline": true, "preload": true,
+		  "controlBarVisibility": "hover", "useH5Prism": true,
+		  "skinLayout": [{
+			  "name": "bigPlayButton",
+			  "align": "blabs",
+			  "x": 30, "y": 80
+			}, {
+			  "name": "H5Loading",
+			  "align": "cc"
+			}, {
+			  "name": "errorDisplay",
+			  "align": "tlabs",
+			  "x": 0, "y": 0
+			}, {
+			  "name": "infoDisplay"
+			}, {
+			  "name": "tooltip",
+			  "align": "blabs",
+			  "x": 0, "y": 56
+			}, {
+			  "name": "thumbnail"
+			}, {
+			  "name": "controlBar",
+			  "align": "blabs",
+			  "x": 0, "y": 0,
+			  "children": [{
+				  "name": "progress",
+				  "align": "blabs",
+				  "x": 0, "y": 44
+				}, {
+				  "name": "playButton",
+				  "align": "tl",
+				  "x": 15, "y": 12
+				}, {
+				  "name": "timeDisplay",
+				  "align": "tl",
+				  "x": 10, "y": 7
+				}, {
+				  "name": "fullScreenButton",
+				  "align": "tr",
+				  "x": 10, "y": 12
+				}, {
+				  "name": "setting",
+				  "align": "tr",
+				  "x": 15, "y": 12
+				}, {
+				  "name": "volume",
+				  "align": "tr",
+				  "x": 5, "y": 10
+				}]
+			}]
+		}
+		);
+        player.loadByUrl('http://127.0.0.1:8080/out/master.m3u8');
+	</script>
+</body>

@@ -1,0 +1,23 @@
+播放器容器 bpx-player-container
+    播放器主区域 bpx-player-primary-area
+        视频区域 bpx-player-video-area
+            视频渲染层 bpx-player-video-perch
+            弹幕层 bpx-player-row-dm-wrap
+            调试输出层??? bpx-player-cmd-dm-wrap
+            视频结束推荐界面层 bpx-player-ending-wrap
+            字幕层 bpx-player-subtitle-wrap
+            顶部工具栏 bpx-player-top-wrap
+            视频(暂停)状态层 bpx-player-state-wrap
+            加载界面 bpx-player-loading-panel
+            播放器toast层(网络卡顿,是否切换480P?) bpx-player-toast-wrap
+            底部控制栏 bpx-player-control-wrap
+            弹幕选中菜单层(点赞 复制 举报) bpx-player-dialog-wrap
+            # 右键菜单中的二级菜单都是每个单独一层
+            # 互动视频有互动菜单层
+        (非全屏)弹幕栏 bpx-player-sending-area
+    播放器日志层 bpx-player-dialog-area
+    底部菜单栏组件hover文本提示 bpx-player-tooltip-area
+    播放器右键菜单 bpx-player-context-area
+
+B站全部组件都是采用的 骨架屏+懒加载，新打开的播放页不可见时不会加载
+画中画依靠js控制

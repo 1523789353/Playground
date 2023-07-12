@@ -1,0 +1,56 @@
+/// 0x1: Setup
+0x338F9 	VarStore: VarStoreId: 0x1 [EC87D643-EBA4-4BB5-A1E5-3F3E36B20DA9], Size: 0x13A3, Name: Setup {24 1C 43 D6 87 EC A4 EB B5 4B A1 E5 3F 3E 36 B2 0D A9 01 00 A3 13 53 65 74 75 70 00}
+
+// CFG锁 0x4DE 01 => 00
+0x3F9A4 		One Of: CFG Lock, VarStoreInfo (VarOffset/VarName): 0x4DE, VarStore: 0x1, QuestionId: 0x286, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 F0 02 F1 02 86 02 01 00 DE 04 10 10 00 01 00}
+// 0x58D 01 => 00 超频锁
+0x3F9C5 		One Of: Overclocking Lock, VarStoreInfo (VarOffset/VarName): 0x58D, VarStore: 0x1, QuestionId: 0x287, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 EC 02 ED 02 87 02 01 00 8D 05 10 10 00 01 00}
+/// 0x64D 00 => 01 超频特性
+0x42912 		One Of: OverClocking Feature, VarStoreInfo (VarOffset/VarName): 0x64D, VarStore: 0x1, QuestionId: 0x3C9, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 08 13 09 13 C9 03 01 00 4D 06 10 10 00 01 00}
+
+/// 0x64E 00 => 01 XTU接口
+0x42972 			One Of: XTU Interface, VarStoreInfo (VarOffset/VarName): 0x64E, VarStore: 0x1, QuestionId: 0x3CB, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 0A 13 0B 13 CB 03 01 00 4E 06 10 10 00 01 00}
+
+
+/// 0x5B3 00 00 => 00 3C 电流墙
+0x3EA00 		Numeric: PSYS PMax Power, VarStoreInfo (VarOffset/VarName): 0x5B3, VarStore: 0x1, QuestionId: 0x220, Size: 2, Min: 0x0, Max 0x1FFF, Step: 0x1 {07 94 AD 02 AE 02 20 02 01 00 B3 05 10 11 00 00 FF 1F 01 00}
+
+
+/// 0x518 ?? => 00 温度墙
+0x4019C 		One Of: Bi-directional PROCHOT#, VarStoreInfo (VarOffset/VarName): 0x518, VarStore: 0x1, QuestionId: 0x2AB, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 ED 11 EE 11 AB 02 01 00 18 05 10 10 00 01 00}
+/// 0x519 ?? => 00 温度墙
+0x401C5 			One Of: Disable PROCHOT# Output, VarStoreInfo (VarOffset/VarName): 0x519, VarStore: 0x1, QuestionId: 0x2AC, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 EF 11 F0 11 AC 02 01 00 19 05 10 10 00 01 00}
+
+/// EEP
+/// 低负载降频
+0x3E993 		One Of: Energy Efficient Turbo, VarStoreInfo (VarOffset/VarName): 0x645, VarStore: 0x1, QuestionId: 0x21D, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 16 03 17 03 1D 02 01 00 45 06 10 10 00 01 00}
+
+
+/// 0x5EA 00 => 14 功耗倍率(0改20)
+0x3EF84 			Numeric: IMON Slope, VarStoreInfo (VarOffset/VarName): 0x5EA, VarStore: 0x1, QuestionId: 0x247, Size: 1, Min: 0x0, Max 0xC8, Step: 0x1 {07 91 94 02 97 02 47 02 01 00 EA 05 10 10 00 C8 01}
+
+
+0x3EE88 		One Of: VR Config Enable, VarStoreInfo (VarOffset/VarName): 0x5B6, VarStore: 0x1, QuestionId: 0x23F, Size: 1, Min: 0x0, Max 0x1, Step: 0x0 {05 91 67 02 6A 02 3F 02 01 00 B6 05 10 10 00 01 00}
+0x3EE99 			One Of Option: Disabled, Value (8 bit): 0x0 {09 07 04 00 00 00 00}
+0x3EEA0 			One Of Option: Enabled, Value (8 bit): 0x1 (default) {09 07 03 00 30 00 01}
+0x3EEA7 		End One Of {29 02}
+
+0x3EE70 	Form: Core/IA VR Settings, FormId: 0x272D {01 86 2D 27 59 01}
+0x3EEB1 			Numeric: AC Loadline, VarStoreInfo (VarOffset/VarName): 0x5BB, VarStore: 0x1, QuestionId: 0x240, Size: 2, Min: 0x0, Max 0xF424, Step: 0x0 {07 94 6C 02 6F 02 40 02 01 00 BB 05 10 11 00 00 24 F4 00 00}
+0x3EEC5 				Default: DefaultId: 0x0, Value (16 bit): 0x0 {5B 07 00 00 01 00 00}
+0x3EECC 			End {29 02}
+
+
+
+
+
+/// 0x1: Setup   于变量存储Setup区
+/// 0x4DE {01} => {00} CFG锁(CFG Lock)
+/// 0x518 {??} => {00} 温度墙(Bi-directional PROCHOT#)
+/// 0x519 {??} => {00} 温度墙(Disable PROCHOT# Output)
+/// 0x58D {01} => {00} 超频锁(Overclocking Lock)
+/// 0x5EA {00} => {14} 功耗倍率(dec 0=>2.0)(IMON Slope)
+/// 0x64D {00} => {01} 超频特性(OverClocking Feature)
+/// 0x645 {??} => {00} 低负载降频(Energy Efficient Turbo)
+/// 0x64E {00} => {01} XTU接口(XTU Interface)
+

@@ -1,0 +1,8 @@
+# IE搜索页
+HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Search Page
+# IE首页
+HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main\Start Page
+# 休眠 REG_DWORD 0/1
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\HibernateEnabled
+# 快速启动 REG_DWORD 0/1
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power\HiberbootEnabled

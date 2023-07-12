@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: 测试
+Class-Path: libs/hutool-all-5.8.9.jar libs/lombok-1.18.24.jar
+Main-Class: com.czr.Main
+
