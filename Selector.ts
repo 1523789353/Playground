@@ -1,8 +1,39 @@
+const DevtoolColors = {
+    Content: "rgba(111, 168, 220, 0.66)",
+    ContentLight: "rgba(111, 168, 220, 0.5)",
+    ContentOutline: "rgba(9, 83, 148, 1)",
+    Padding: "rgba(147, 196, 125, 0.55)",
+    PaddingLight: "rgba(147, 196, 125, 0.4)",
+    Border: "rgba(255, 229, 153, 0.66)",
+    BorderLight: "rgba(255, 229, 153, 0.5)",
+    Margin: "rgba(246, 178, 107, 0.66)",
+    MarginLight: "rgba(246, 178, 107, 0.5)",
+    EventTarget: "rgba(255, 196, 196, 0.66)",
+    Shape: "rgba(96, 82, 177, 0.8)",
+    ShapeMargin: "rgba(96, 82, 127, 0.6)",
+    CssGrid: "rgba(75, 0, 130, 1)",
+    LayoutLine: "rgba(127, 32, 210, 1)",
+    GridBorder: "rgba(127, 32, 210, 1)",
+    GapBackground: "rgba(127, 32, 210, 0.3)",
+    GapHatch: "rgba(127, 32, 210, 0.8)",
+    GridAreaBorder: "rgba(26, 115, 232, 1)",
+    /* ===== */
+    ParentOutline: "rgba(224, 90, 183, 1)",
+    ChildOutline: "rgba(0, 120, 212, 1)",
+    /* ===== */
+    Resizer: "rgba(222, 225, 230, 1)",
+    ResizerHandle: "rgba(166, 166, 166, 1)",
+    Mask: "rgba(248, 249, 249, 1)"
+}
+
 class SelectorChain {
     private static mask = (function() {
         const mask = document.createElement('div');
         mask.style.position = 'absolute';
         mask.style.zIndex = '999';
+        mask.style.backgroundColor = DevtoolColors.Content;
+        mask.style.border = `dashed 1px ${DevtoolColors.ContentOutline}`;
+        mask.style.pointerEvents = 'none';
         document.body.appendChild(mask);
         return mask;
     })();
@@ -29,6 +60,13 @@ class SelectorChain {
             cursor = cursor.child
         }
         return selector;
+    }
+    static highlight(elem): void {
+        let { width, height, left, top } = elem.getBoundingClientRect();
+        SelectorChain.mask.style.width = width + 'px';
+        SelectorChain.mask.style.height = height + 'px';
+        SelectorChain.mask.style.left = left + window.scrollX + 'px';
+        SelectorChain.mask.style.top = top + window.scrollY + 'px';
     }
     /**
      *  增强CSS选择器

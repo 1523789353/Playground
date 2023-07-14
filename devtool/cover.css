@@ -1,4 +1,30 @@
 * {
-        background-color: rgba(111, 168, 220, 0.66);
-        border: dashed 1px rgb(129, 44, 212);
+    --override-selection-background-color: rgb(141 199 248/60%);
+
     }
+
+unknown {
+    background-color: rgba(111, 168, 220, 0.66);
+    border: dashed 1px rgb(129, 44, 212);
+}
+
+
+.margin {
+background-color: rgba(246, 178, 107, 0.66);
+border: 1px dashed #000;
+}
+
+.border {
+    background-color: rgba(255, 229, 153, 0.66);
+    border: 1px solid #000;
+}
+
+.padding {
+    background-color: rgba(147, 196, 125, 0.55);
+    border: 1px dashed #000;
+}
+
+.content {
+    background-color: rgba(111, 168, 220, 0.66);
+}
+
