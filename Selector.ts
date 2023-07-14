@@ -30,9 +30,9 @@ class SelectorChain {
     private static mask = (function() {
         const mask = document.createElement('div');
         mask.style.position = 'absolute';
-        mask.style.zIndex = '999';
+        mask.style.zIndex = '99999';
         mask.style.backgroundColor = DevtoolColors.Content;
-        mask.style.border = `dashed 1px ${DevtoolColors.ContentOutline}`;
+        mask.style.border = `dashed 1px ${DevtoolColors.LayoutLine}`;
         mask.style.pointerEvents = 'none';
         document.body.appendChild(mask);
         return mask;
