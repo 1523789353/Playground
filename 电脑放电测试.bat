@@ -3,7 +3,7 @@
 """
 @echo off&cls
 cd /d "%~dp0"
-echo æŒ‰Ctrl+Cç»“æŸæµ‹è¯•, å¹¶ä¿å­˜æ—¥å¿—
+echo °´Ctrl+C½áÊø²âÊÔ, ²¢±£´æÈÕÖ¾
 python "%~dpnx0" %*
 exit /b
 """
@@ -30,7 +30,7 @@ class Logger:
 
 logger = Logger('BatteryReport.txt')
 
-logger.log(['æ—¶é—´æˆ³', 'ç”µé‡ç™¾åˆ†æ¯”', 'å·²è¿æ¥ç”µæº'])
+logger.log(['Ê±¼ä´Á', 'µçÁ¿°Ù·Ö±È', 'ÒÑÁ¬½ÓµçÔ´'])
 while True:
     battery = psutil.sensors_battery()
     logger.log([round(time.time() * 1000), battery.percent, battery.power_plugged])
