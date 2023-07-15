@@ -1,0 +1,68 @@
+﻿{
+    "ver":"5.0",
+    "tag":"hipsuser_auto",
+    "data":{
+        "?:\\Program Files\\Google\\Chrome\\Application\\chrome.exe":[
+            {
+                "res_path":"?:\\Users\\>\\AppData\\Local\\Google\\Chrome\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":0
+            }
+        ],
+        "?:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe":[
+            {
+                "res_path":"?:\\Users\\>\\AppData\\Local\\Google\\Chrome\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":0
+            }
+        ],
+        "?:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe":[
+            {
+                "res_path":"?:\\Users\\>\\AppData\\Local\\Microsoft\\Edge\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":0
+            }
+        ],
+        "?:\\Program Files (x86)\\Tencent\\QQ\\Bin\\QQ.exe":[
+            {
+                "res_path":"?:\\Windows\\System32\\*",
+                "montype":1,
+                "action_type":13,
+                "treatment":3
+            },
+            {
+                "res_path":"?:\\Windows\\SysWOW64\\*",
+                "montype":1,
+                "action_type":13,
+                "treatment":3
+            },
+            {
+                "res_path":"*\\Microsoft\\Windows\\Cookies\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":3
+            },
+            {
+                "res_path":"?:\\Users\\>\\AppData\\Local\\Google\\Chrome\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":3
+            },
+            {
+                "res_path":"?:\\Users\\>\\AppData\\Local\\Microsoft\\Edge\\*",
+                "montype":1,
+                "action_type":15,
+                "treatment":3
+            },
+            {
+                "res_path":"HKEY_CLASSES_ROOT\\AllFilesystemObjects\\shellex\\ContextMenuHandlers\\*",
+                "montype":2,
+                "action_type":13,
+                "treatment":3
+            }
+        ]
+    }
+}
