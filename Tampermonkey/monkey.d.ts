@@ -4,7 +4,8 @@
  * @author 皇家养猪场
  * @license MIT
  * @note 每一节不太相同的内容, 都以三个空行分隔
- * @note 使用前需要在脚本声明中添加相应的 @grant GM_*
+ * @note 使用前需要在脚本声明中添加相应的 `@grant GM_*` 权限声明
+ * @note 部分网络/cookie相关函数需要添加相应的 `@connect` / `@require` 权限声明
  *
  * @see https://www.tampermonkey.net/documentation.php#api:GM_addElement 官方文档
  */
@@ -42,17 +43,22 @@
  * window.close
  * window.focus
 
- * 需要提前声明才能使用的函数:
- * @grant window.close
- * @grant window.focus
- * @grant window.onurlchange
+ * 需要提前 `@grant` 声明才能使用的函数:
+ * window.close
+ * window.focus
+ * window.onurlchange
  */
 
-/** @Todo 未知回调, 目前没时间测试每个函数的回调内容 */
-declare type UnknowCallback = (...args: Array<unknown>) => unknown;
+/** 标记回调函数 */
+declare type Callback<F extends Function> = F;
+/** @warning 标记在浏览器测试出来, 但未出现在官方文档的回调 */
+declare type UndocumentedCallback<F extends Function> = F;
+/** @todo 标记未知回调, 没时间/没法测试的回调 */
+declare type UnknowCallback = Function;
 
 
 
+/** 油猴代理全局 */
 declare const unsafeWindow: Window;
 
 
@@ -65,20 +71,21 @@ declare const unsafeWindow: Window;
  * @param parentNode 父节点 *可选*
  * @param tagName 标签名
  * @param attributes 初始化属性
+ * @param callback 回调函数 *可选* **试出来的**
  *
  * @returns 添加的元素
  */
 declare function GM_addElement
     <K extends keyof HTMLElementTagNameMap>
-    (tagName: K, attributes: Partial<HTMLElementTagNameMap[K]>):
+    (tagName: K, attributes: Partial<HTMLElementTagNameMap[K]>, callback?: UndocumentedCallback<() => void>):
     HTMLElementTagNameMap[K];
 declare function GM_addElement
     <K extends keyof HTMLElementTagNameMap>
-    (parentNode: HTMLElement, tagName: K, attributes: Partial<HTMLElementTagNameMap[K]>):
+    (parentNode: HTMLElement, tagName: K, attributes: Partial<HTMLElementTagNameMap[K]>, callback?: UndocumentedCallback<() => void>):
     HTMLElementTagNameMap[K];
 
 /** 添加样式, 并返回注入的样式元素 */
-declare function GM_addStyle(css: string): HTMLStyleElement;
+declare function GM_addStyle(css: string, callback?: Callback<() => void>): HTMLStyleElement;
 
 
 
@@ -90,7 +97,7 @@ declare type GM_DownloadError = {
     | 'not_supported' // 浏览器/版本不支持下载功能
     | 'not_succeeded' //下载未开始或失败，*details*属性可能提供更多信息
     | string, // http错误信息
-    details?: Record<string, any>, // 详细信息
+    details?: Record<any, any>, // 详细信息
 };
 declare type GM_DownloadConfig = {
     url: string | URL, // 下载地址
@@ -130,25 +137,27 @@ declare function GM_download(config: GM_DownloadConfig): GM_DownloadAbort;
 
 /**
  * 获取'@resource'标签中资源的文本内容
+ * 资源缓存出错时返回空字符串, 资源不存在时返回null
  * @example ```TypeScript
  * //@resource res http://example.com/index.html#md5=1234...,sha256=abcd...
  * let resText = GM_getResourceText('res');
  * ```
  */
-declare function GM_getResourceText(name: string): string;
+declare function GM_getResourceText(name: string): string | null;
 /**
  * 获取'@resource'标签中资源的URL
+ * 资源缓存出错时返回空字符串, 资源不存在时返回null
  * @example ```TypeScript
  * //@resource res http://example.com/index.html#md5=1234...,sha256=abcd...
  * let resUrl = GM_getResourceText('res');
  * ```
  */
-declare function GM_getResourceURL(name): string;
+declare function GM_getResourceURL(name): string | null;
 
 
 
 /** 打印日志到控制台 */
-declare function GM_log(msg: string): void;
+declare function GM_log(...msgs: any): void;
 
 
 
@@ -163,19 +172,19 @@ declare type GM_NotificationDetails = {
     ondone?: UnknowCallback, // 通知关闭时的回调
 }
 /**
- * 在屏幕上显示通知
+ * 在屏幕上显示通知 *不太管用*
  * @param details
- * @param ondone 当通知关闭(无论是超时还是点击)或选项卡突出显示时将调用的回调函数
+ * @param onDone 当通知关闭(无论是超时还是点击)或选项卡突出显示时将调用的回调函数
  */
-declare function GM_notification(details: GM_NotificationDetails, ondone: UnknowCallback): void;
+declare function GM_notification(details: GM_NotificationDetails, onDone?: UnknowCallback): void;
 /**
- * 在屏幕上显示通知
+ * 在屏幕上显示通知 *不太管用*
  * @param text 通知消息
  * @param title 通知标题
  * @param image 要在通知中显示的图像的 URL
- * @param onclick 点击通知时的回调
+ * @param onClick 点击通知时的回调 *测试不出来*
  */
-declare function GM_notification(text: string, title: string, image: string, onclick: UnknowCallback): void;
+declare function GM_notification(text: string, title: string, image: string, onClick?: UnknowCallback): void;
 
 
 
@@ -216,7 +225,7 @@ declare function GM_openInTab(url: string | URL, options: GM_OpenInTabOptions): 
  * @param hotkey 快捷键  如果快捷键是“s​​”，则当菜单打开时，可以通过按"s"来选择菜单项
  * @returns 菜单ID, 可用于取消注册
  */
-declare function GM_registerMenuCommand(text: string, callback: (tabIndex: number) => void, hotkey?: string): number;
+declare function GM_registerMenuCommand(text: string, callback: Callback<(tabIndex: number) => void>, hotkey?: string): number;
 /**
  * 取消注册右键菜单
  * @param id 菜单ID
@@ -232,9 +241,10 @@ declare type GM_SetClipboardInfo = {
 /**
  * 设置剪贴板内容
  * @param data 剪贴板文本的字符串
- * @param info *info*可以只是一个表示类型的字符串 像`text`或`html`; 或是一个类型描述对象
+ * @param info 可以只是一个表示类型的字符串 像`text`或`html`; 或是一个类型描述对象
+ * @param callback 成功回调 **试出来的**
  */
-declare function GM_setClipboard(data, info: string | GM_SetClipboardInfo): void;
+declare function GM_setClipboard(data: string, info: string | GM_SetClipboardInfo, callback?: UndocumentedCallback<() => void>): void;
 
 
 
@@ -243,16 +253,14 @@ declare type GM_TabInfo = Record<string, any>;
  * 新建选项卡回调
  * @param callback 回调函数, 参数为新建的选项卡信息对象
  */
-declare function GM_getTab(callback: (tabInfo: GM_TabInfo) => void): void;
+declare function GM_getTab(callback: Callback<(tabInfo: GM_TabInfo) => void>): void;
 /**
  * 保存选项卡信息, 以供后续使用
  * @param tabInfo 选项卡信息对象
  */
 declare function GM_saveTab(tabInfo: GM_TabInfo): void;
-declare type GM_TabMap = {
-    [tabId: number]: GM_TabInfo
-}
-declare function GM_getTabs(callback: (tabs: GM_TabMap) => void): void;
+declare type GM_TabMap = Array<{ [tabId: number]: GM_TabInfo }>
+declare function GM_getTabs(callback: Callback<(tabMap: GM_TabMap) => void>): void;
 
 
 
@@ -269,8 +277,8 @@ declare function GM_setValue(keyName: string, value: any): void;
  * @param defaultValue 默认值 *可选*
  * @returns 值 *找不到且无默认值时为undefined*
  */
-declare function GM_getValue<T>(keyName: string): T | undefined;
-declare function GM_getValue<T>(keyName: string, defaultValue: T): T;
+declare function GM_getValue(keyName: string): any | undefined;
+declare function GM_getValue(keyName: string, defaultValue: any): any;
 /** 列出所有键 */
 declare function GM_listValues(): Array<string>;
 /** 删除指定键的值 */
@@ -341,7 +349,6 @@ declare function GM_xmlhttpRequest(config: GM_XHRConfig): void;
 
 
 
-
 declare type GM_WebRequestRule = {
     // 选择器
     selector: string | { // 应触发规则的 URL
@@ -352,7 +359,7 @@ declare type GM_WebRequestRule = {
     // 如何处理请求
     action: string | { // { cancel: true } 可缩短为字符串 "cancel"
         cancel?: boolean, // 是否取消请求
-        redirect?: string | { // 重定向到另一个URL, 必须包含在任何 @match 或 @include 标头中
+        redirect?: string | { // 重定向到另一个URL, 必须包含在任何 @match 或 @include 声明中
             from: string, // 用于提取 URL 某些部分的正则表达式，例如"([^:]+)://match.me/(.*)"
             to: string // 替换模式，例如"$1://redirected.to/$2"
         }
@@ -370,7 +377,7 @@ declare type GM_WebRequestHandler = (
 ) => void;
 /**
  * 注册Web请求监听器
- * @note 如果您只需要注册规则，最好使用@webRequest标头
+ * @note 如果您只需要注册规则，最好使用 `@webRequest` 声明
  * @note 请注意，webRequest 仅处理类型为sub_frame、script、xhr和websocket请求
  * @beta 此 API 是实验性的，可能随时更改。它也可能在清单 v3 迁移期间消失或更改。
  * @param rules
@@ -380,25 +387,51 @@ declare function GM_webRequest(rules: GM_WebRequestRule, listener: GM_WebRequest
 
 
 
-/** ==================== @Todo ==================== */
-// https://www.tampermonkey.net/documentation.php#api:GM_cookie.list
-
-
+declare type GM_CookieListConfig = {
+    url?: string, // 要检索 cookie 的 URL (默认为当前文档 URL)
+    domain?: string, // 要检索 cookie 的域
+    name?: string, // 要检索 cookie 的名称
+    path?: string, // 要检索 cookie 的路径
+}
+declare type GM_CookieItem = {
+    domain: string,
+    firstPartyDomain?: string,
+    hostOnly: boolean,
+    httpOnly: boolean,
+    name: string,
+    path: string,
+    sameSite: string,
+    secure: boolean,
+    session: boolean,
+    value: string
+}
+declare type GM_CookieSetConfig = {
+    url?: string, // 与 cookie 关联的 URL (默认为当前文档 URL)
+    name: string, // cookie 的名称
+    value: string, // cookie 的值
+    domain?: string, // cookie 的域
+    firstPartyDomain?: string, // cookie 的第一方域
+    path?: string, // cookie 的路径
+    secure: boolean, // cookie 是否应仅通过 HTTPS 发送
+    httpOnly: boolean, // cookie 是否应仅通过 HTTP 发送
+    expirationDate: number, // cookie 的过期时间戳, 如果未指定，cookie 永远不会过期
+}
+declare type GM_CookieDeleteConfig = {
+    url?: string, // 与 cookie 关联的 URL (默认为当前文档 URL)
+    name: string, // cookie 的名称
+    firstPartyDomain?: string, // cookie 的第一方域
+}
 /**
- * @beta 此 API 是实验性的，在某些 Tampermonkey 版本中可能会返回`not supported`错误。
+ * @beta GM_cookie API 是实验性的，在某些 Tampermonkey 版本中可能会返回`not supported`错误。
+ * @warning 油猴将从 `@include` 或 `@match` 检查 `config.url` 的访问权限!
  */
-declare class GM_cookie {
-    /**
-     *
-     * @beta 此 API 是实验性的，在某些 Tampermonkey 版本中可能会返回`not supported`错误。
-     * @param details
-     * @param callback
-     */
-    static list(details, callback?: UnknowCallback): void
-
-    static set(details, callback?: UnknowCallback): void
-
-    static delete(details, callback?: UnknowCallback): void
+declare interface GM_cookie {
+    /** 列出 cookie */
+    list(config: GM_CookieListConfig, callback?: Callback<(cookies: Array<GM_CookieItem>, error: string | null) => void>): void
+    /** 设置 cookie */
+    set(config: GM_CookieSetConfig, callback?: Callback<(error?: string) => void>): void
+    /** 删除 cookie */
+    delete(config: GM_CookieDeleteConfig, callback?: Callback<(error?: string) => void>): void
 }
 
 
@@ -415,4 +448,3 @@ declare class GM_cookie {
  * ```
  */
 declare const CDATA = `<><![CDATA[...]]></>`;
-
