@@ -51,8 +51,10 @@
 
 /** 标记回调函数 */
 declare type Callback<F extends Function> = F;
+
 /** @warning 标记在浏览器测试出来, 但未出现在官方文档的回调 */
 declare type UndocumentedCallback<F extends Function> = F;
+
 /** @todo 标记未知回调, 没时间/没法测试的回调 */
 declare type UnknowCallback = Function;
 
@@ -108,10 +110,10 @@ declare type GM_DownloadConfig = {
     conflictAction?: 'uniquify' // 自动重命名
     | 'overwrite' // 覆盖
     | 'prompt', // 提示
-    onload?: () => void, // 下载完成回调
-    onerror?: (event: ProgressEvent & GM_DownloadError) => void, // 下载失败回调
-    onprogress?: (event: ProgressEvent) => void, // 下载进度回调
-    ontimeout?: (event: ProgressEvent) => any, // 下载超时回调
+    onload?: Callback<() => void>, // 下载完成回调
+    onerror?: Callback<(event: ProgressEvent & GM_DownloadError) => void>, // 下载失败回调
+    onprogress?: Callback<(event: ProgressEvent) => void>, // 下载进度回调
+    ontimeout?: Callback<(event: ProgressEvent) => any>, // 下载超时回调
 }
 /** 终止下载函数 */
 declare type GM_DownloadAbort = () => void;
@@ -190,7 +192,7 @@ declare function GM_notification(text: string, title: string, image: string, onC
 
 declare type GM_TabState = {
     close: () => void, // 关闭标签页
-    onclose: () => void | null, // 标签页关闭时的回调
+    onclose: Callback<() => void | null>, // 标签页关闭时的回调
     focus: () => void, // 聚焦标签页
     readonly closed: boolean, // 标签页是否已关闭
     name?: string, // 标签页名称
@@ -322,14 +324,13 @@ declare type GM_XHRConfig = {
     fetch?: boolean, // 使用fetch而不是XHR, 会使details.timeout和xhr.onprogress不起作用, 并且会使xhr.onreadystatechange只接收readyState == 4 (DONE)事件
     user?: string, // 用户名
     password?: string, // 密码
-    onabort?: () => void, // 请求中止回调
-    onerror?: (event: ProgressEvent) => any, // 请求失败回调
-    onloadstart?: (event: ProgressEvent) => any, // 请求开始回调
-    onprogress?: (event: ProgressEvent) => any, // 请求进度回调
-    onreadystatechange?: (event: ProgressEvent) => any, // 请求状态改变回调
-    ontimeout?: (event: ProgressEvent) => any, // 请求超时回调
-    onload?: (response: GM_XHRResponse) => void, // 请求成功回调
-    abort: () => void, // 中止请求
+    onabort?: Callback<() => void>, // 请求中止回调
+    onerror?: Callback<(event: ProgressEvent) => any>, // 请求失败回调
+    onloadstart?: Callback<(event: ProgressEvent) => any>, // 请求开始回调
+    onprogress?: Callback<(event: ProgressEvent) => any>, // 请求进度回调
+    onreadystatechange?: Callback<(event: ProgressEvent) => any>, // 请求状态改变回调
+    ontimeout?: Callback<(event: ProgressEvent) => any>, // 请求超时回调
+    onload?: Callback<(response: GM_XHRResponse) => void>, // 请求成功回调
 }
 declare type GM_XHRResponse = {
     finalUrl: string, // 最终请求地址
@@ -345,7 +346,7 @@ declare type GM_XHRResponse = {
  * 发送请求
  * @warning **重要提示**: 如果您想使用此方法，请同时查看有关[@connect](https://www.tampermonkey.net/documentation.php#meta:connect)的文档
 */
-declare function GM_xmlhttpRequest(config: GM_XHRConfig): void;
+declare function GM_xmlhttpRequest(config: GM_XHRConfig): () => void;
 
 
 
@@ -425,13 +426,13 @@ declare type GM_CookieDeleteConfig = {
  * @beta GM_cookie API 是实验性的，在某些 Tampermonkey 版本中可能会返回`not supported`错误。
  * @warning 油猴将从 `@include` 或 `@match` 检查 `config.url` 的访问权限!
  */
-declare interface GM_cookie {
+declare class GM_cookie {
     /** 列出 cookie */
-    list(config: GM_CookieListConfig, callback?: Callback<(cookies: Array<GM_CookieItem>, error: string | null) => void>): void
+    static list(config: GM_CookieListConfig, callback?: Callback<(cookies: Array<GM_CookieItem>, error: string | null) => void>): void
     /** 设置 cookie */
-    set(config: GM_CookieSetConfig, callback?: Callback<(error?: string) => void>): void
+    static set(config: GM_CookieSetConfig, callback?: Callback<(error?: string) => void>): void
     /** 删除 cookie */
-    delete(config: GM_CookieDeleteConfig, callback?: Callback<(error?: string) => void>): void
+    static delete(config: GM_CookieDeleteConfig, callback?: Callback<(error?: string) => void>): void
 }
 
 

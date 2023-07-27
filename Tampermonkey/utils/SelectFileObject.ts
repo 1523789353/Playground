@@ -10,7 +10,7 @@ interface FileInputConfig {
  * 选择文件系统对象
  * 通过config指定是否为目录、文件类型、是否多选等
  */
-const selectFileObject = (function () {
+export const selectFileObject = (function () {
     let fileInput = document.createElement('input');
 
     /**

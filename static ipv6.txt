@@ -1,0 +1,6 @@
+netsh interface ipv6 set global randomizeidentifiers=disabled store=active
+netsh interface ipv6 set global randomizeidentifiers=disabled store=persistent
+netsh interface ipv6 set privacy state=disabled store=active
+netsh interface ipv6 set privacy state=disabled store=persistent
+
+https://v6r.ipip.net/?format=callback

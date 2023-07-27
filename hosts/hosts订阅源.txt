@@ -1,0 +1,22 @@
+// 国内广告
+https://github.com/vokins/yhosts/
+// 国内视频网站广告
+https://github.com/jdlingyu/ad-wars/
+// 1024网站和澳门皇家赌场广告
+https://github.com/Goooler/1024_hosts
+// 挖矿统计JS&360&百度&法l功等 广告
+https://hosts.nfz.moe/full/hosts
+// 聚合广告
+https://hblock.molinero.dev/hosts
+// 欧美广告
+http://winhelp2002.mvps.org/hosts.txt
+// 韩国广告
+https://github.com/yous/YousList/master/hosts.txt
+// 国外广告
+https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+// Google加速
+https://raw.githubusercontent.com/googlehosts/hosts/master/hosts-files/hosts
+// 屏蔽抖音
+https://raw.githubusercontent.com/Discover999/Host-Ban-Tik-Tok/master/TikTokHost.txt
+// 进去看
+https://www.daxiaamu.com/2798/

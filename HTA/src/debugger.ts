@@ -1,5 +1,5 @@
 (function () {
-    const isSafari = (new Error).stack.includes('@');
+    const isSafari = (new Error).stack?.includes('@');
 
     /**
      * 获取函数调用栈
@@ -10,11 +10,11 @@
         let safariRegx = /^([\w\d_\.]*)@.*$/g;
         let regx = isSafari ? safariRegx : chromeRegx;
 
-        let stackString = (new Error).stack;
-        stack = stackString.split('\n')
+        let stackString = (new Error).stack ?? '';
+        let stack = stackString.split('\n')
             .map(i => regx.exec(i))
             .filter(i => i !== null)
-            .map(i => i[1])
+            .map(i => i![1])
             .map(i => i.length == 0 ? '<anonymous>' : i)
         stack.shift(); // 移除 getStack 函数本身
         return stack;
@@ -25,7 +25,7 @@
      * @param {any} target 对象
      * @returns {string} 类型名称
      */
-    function getType(target) {
+    function getType(target: any) {
         return Object.prototype.toString.call(target)
             .replace(/\[object (\w+)\]/g, '$1');
     }
@@ -43,9 +43,9 @@
      *     return new old(...args);
      * });
      */
-    function hook(target, prop, fn) {
+    function hook(target: any, prop: string, fn: Function) {
         // 备份老方法, 创建代理
-        let old = target[prop];
+        let old: any = target[prop];
         let proxy = new Proxy(old, {
             apply(target, thisArg, args) {
                 return Reflect.apply(fn, thisArg, [old, ...args]);
@@ -83,7 +83,7 @@
     let download = (function () {
         const anchorForDownload = document.createElement('a');
         anchorForDownload.target = '_blank';
-        return function (url, filename) {
+        return function (url: string, filename: string) {
             anchorForDownload.href = url;
             anchorForDownload.download = filename;
             anchorForDownload.click();
@@ -92,7 +92,7 @@
 
     let escapeHTML = (function () {
         const elem = document.createElement('div');
-        return function (str) {
+        return function (str: string) {
             elem.innerText = str;
             return elem.innerHTML
                 .replace(/ /g, '&nbsp;')
@@ -104,13 +104,13 @@
     /**
      * 将对象转换为方便打印的字符串
      */
-    function toString(obj) {
+    function toString(obj: any) {
         let objType = getType(obj);
         switch (objType) {
             case 'Object':
                 return `<Object ${JSON.stringify(obj, null, 4).replace(/\\(.)/g, '$1')}>`;
             case 'Array':
-                return `<Array [${obj.map(i => getType(i) == 'String' ? `"${i}"` : toString(i)).join(', ')}]>`;
+                return `<Array [${obj.map((i: any) => getType(i) == 'String' ? `"${i}"` : toString(i)).join(', ')}]>`;
             case 'Function':
                 let fnName = obj.name.trim();
                 if (fnName.length == 0)
@@ -141,7 +141,7 @@
      * @param {string} str
      * @returns
      */
-    function escapeComments(str) {
+    function escapeComments(str: string) {
         return str.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
     }
 
@@ -264,7 +264,7 @@
         download(blobUrl, 'console.log');
     })
 
-    function domLog(level, ...args) {
+    function domLog(level: string, ...args: Array<any>) {
         let log = document.createElement('p');
         log.classList.add('log', 'level-' + level);
         log.innerHTML += `<span class="function">[${escapeHTML(getStack()[isSafari ? 2 : 1])}]</span> `;
@@ -276,19 +276,17 @@
     }
 
     // hook console
-    for (let fnName in console) {
-        let fn = console[fnName];
+    function handler(this: any, fnName: string, old: Function, ...args: Array<any>) {
+        domLog(fnName, ...args);
+        return Reflect.apply(old, this, args);
+    }
+    for (let fnName in window.console) {
+        let fn = (window.console as any)[fnName] as Function;
         if (typeof fn !== 'function') continue;
-        function handler(old, ...args) {
-            domLog(fnName, ...args);
-            return Reflect.apply(old, this, args);
-        }
-        hook(console, fnName, handler);
+        hook(console, fnName, handler.bind(console, fnName));
     }
 
-    // 测试日志样式
-    console.warn('Test Console Warn');
-    console.error('Test Console Error');
+
 
     // 注入样式与日志显示区域
     window.addEventListener('load', () => {
@@ -296,40 +294,55 @@
         document.body.appendChild(warpperElem);
     });
 
-    window.addEventListener('error', e => console.error(e.error));
-
-    setTimeout(() => {
-        throw new Error('Test Error');
+    window.addEventListener('error', e => {
+        console.error(e.error);
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        return false;
     });
+
+
+    // 测试日志样式
+    console.warn('Test Console Warn');
+    console.error('Test Console Error');
+
 
 
     /* 劫持页面的Xhr请求 */
     // 设置
     var setting = {
         showLog: true,
-        xhrList: [],
+        xhrList: new Array<ProxyXhr>(),
     }
     // 暴露
-    window.ProxyXhrSetting = setting;
+    Object.defineProperty(window, 'ProxyXhrSetting', {
+        get() {
+            return setting;
+        },
+        set(value) {
+            setting = value;
+        }
+    })
     // 新的XMLHttpRequest类
     class ProxyXhr {
-        instance = null
-        proxy = null
+        instance: XMLHttpRequest
+        proxy: XMLHttpRequest
         // 日志记录
-        logHistory = []
+        logHistory: Array<any> = []
         // 打印日志
-        log(...args) {
+        log(...args: Array<any>) {
             this.logHistory.push(args);
             if (setting.showLog) {
                 console.log(...args);
             }
         }
-        constructor(old, ...args) {
+        constructor(old: XMLHttpRequest, ...args: Array<any>) {
             this.log("构造XMLHttpRequest实例, 调用栈: ", getStack())
             // 记录实例
             setting.xhrList.push(this)
             // 初始化XHR实例
-            this.instance = Reflect.construct(old, args)
+            this.instance = Reflect.construct(old as any, args);
             // 防止this指向不清
             let vm = this
             // 创建代理, target === vm.instance
@@ -337,20 +350,20 @@
                 // 获取值时执行代理方法
                 get(target, prop) {
                     let result = Reflect.get(vm.instance, prop)
-                    vm.log(`尝试读取成员"${prop}", 值为: `, result);
+                    vm.log(`尝试读取成员"${String(prop)}", 值为: `, result);
                     if (getType(result) !== 'Function')
                         return result;
                     // 劫持方法/构造函数
                     return new Proxy(result, {
                         apply(target, context, args) {
-                            vm.log(`尝试执行方法"${prop}", 参数: `, args, ", 调用栈: ", getStack());
+                            vm.log(`尝试执行方法"${String(prop)}", 参数: `, args, ", 调用栈: ", getStack());
                             let retcode = Reflect.apply(target, vm.instance, args);
                             // vm.log(`方法: "${prop}" 执行完毕, 返回值: `, retcode);
                             return retcode;
                         },
                         construct(target, args) {
-                            vm.log(`尝试构造对象"${prop}", 参数: `, args, ", 调用栈: ", getStack());
-                            let retcode = Reflect.construct(target, args);
+                            vm.log(`尝试构造对象"${String(prop)}", 参数: `, args, ", 调用栈: ", getStack());
+                            let retcode: object = Reflect.construct(target, args);
                             // vm.log(`对象"${prop}"构造完毕, 返回值: `, retcode);
                             return retcode;
                         }
@@ -359,7 +372,7 @@
                 // 设置值时执行代理方法
                 set(target, prop, value) {
                     let old = Reflect.get(vm.instance, prop);
-                    vm.log(`尝试写入成员"${prop}", 旧值: `, old, ', 新值: ', value);
+                    vm.log(`尝试写入成员"${String(prop)}", 旧值: `, old, ', 新值: ', value);
                     return Reflect.set(target, prop, value);
                 },
                 has(target, prop) {
@@ -367,7 +380,7 @@
                 }
             })
             // 返回劫持后的xhr实例
-            return this.proxy;
+            return this.proxy as any;
         }
     }
     hook(window, 'XMLHttpRequest', ProxyXhr);

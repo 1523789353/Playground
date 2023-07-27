@@ -1,0 +1,36 @@
+{
+    "scripts": {
+        "build": "webpack --mode production",
+        "dev": "webpack --mode development --watch"
+    },
+    "dependencies": {
+        "@babel/core": "^7.22.9",
+        "@babel/plugin-proposal-class-properties": "^7.18.6",
+        "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
+        "@babel/polyfill": "^7.12.1",
+        "@babel/preset-env": "^7.22.9",
+        "@babel/preset-typescript": "^7.22.5",
+        "css-loader": "^6.8.1",
+        "es6-proxy-polyfill": "^2.1.1",
+        "polyfill": "^0.1.0",
+        "style-loader": "^3.3.3",
+        "traceur-loader": "^0.6.3",
+        "ts-loader": "^9.4.4",
+        "typescript": "^5.1.6",
+        "webpack": "^5.88.2"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.22.9",
+        "babel-loader": "^9.1.3",
+        "babel-plugin-proxy": "^1.1.0",
+        "core-js": "^3.31.1",
+        "proxy-polyfill": "^0.3.2",
+        "webpack-cli": "^5.1.4"
+    },
+    "browser": [
+        "src/**/*.ts"
+    ],
+    "browserslist": [
+        "IE 11"
+    ]
+}

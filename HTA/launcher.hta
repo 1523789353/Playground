@@ -1,0 +1,108 @@
+<!--[if gt IE 6]>
+<!DOCTYPE html>
+<![endif]-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+
+<head>
+    <title>App Luncher</title>
+    <meta HTTP-EQUIV="MSThemeCompatible" content="yes">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+
+    <!-- { 如果不支持JavaScript脚本 } -->
+    <noscript>
+        <meta http-equiv="refresh" content="10;URL='./src/noscript.html'">
+    </noscript>
+
+    <!-- { hta 应用配置 } -->
+    <HTA:APPLICATION ID="App"
+        application="yes"
+        applicationName="App Launcher"
+        border="none"
+        caption="no"
+        contextMenu="no"
+        icon="./src/img/favicon.ico"
+        innerBorder="no"
+        maximizeButton="yes"
+        minimizeButton="yes"
+        navigable="yes"
+        scroll="yes"
+        scrollFlat="no"
+        selection="yes"
+        showInTaskBar="yes"
+        singleInstance="yes"
+        sysMenu="yes"
+        version="1.0.0"
+        windowState="normal" />
+    <title>App Luncher</title>
+
+    <!-- 加载界面样式 -->
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hta-loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            background: #006a7b;
+            background: linear-gradient(to right, #006a7b 0%, #00b4a8 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006a7b', endColorstr='#00b4a8', GradientType=1);
+        }
+
+        .hta-loading-screen_logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 371px;
+            height: 165px;
+            margin: -101px auto auto -183px;
+            background: url('../src/img/logo.png') no-repeat;
+            _background: none;
+            _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../src/img/logo.png', sizingMethod='crop');
+        }
+    </style>
+
+    <script type="text/javascript">
+        // 最大化窗口
+        try {
+            window.resizeTo(screen.availWidth, screen.availHeight);
+            window.moveTo(0, 0)
+        } catch (e) { }
+
+        // 重定向
+        function redirect(url) {
+            try {
+                function handler() {
+                    window.location.href = url;
+                    window.location.replace(url);
+                }
+                window.addEventListener('load', handler, false);
+                window.onload = handler;
+            } catch (e) {
+                document.write('<meta http-equiv="refresh" content="0;URL=\'' + url + '\'">');
+            }
+        }
+        // 传递命令行参数
+        var cmdline = App.commandLine;
+        if (cmdline != '') {
+            cmdline = '#' + encodeURIComponent(cmdline);
+        }
+        redirect('./src/index.html' + cmdline);
+    </script>
+</head>
+
+<body>
+    <div id="hta-loading-screen" class="hta-loading-screen">
+        <div class="hta-loading-screen_logo"></div>
+    </div>
+</body>
+
+</html>

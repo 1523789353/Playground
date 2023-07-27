@@ -1,0 +1,71 @@
+<!--[if !(IE 6)]><!-->
+<!DOCTYPE html>
+<!--<![endif]-->
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- { 指定最新 IE 运行环境(IE11), 最高支持 JavaScript ES5, 建议使用 TypeScript + Polyfill + Babel 编译后使用 } -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="MSThemeCompatible" content="yes" />
+
+    <!-- { 无缓存 IE }-->
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+
+    <!-- { 如果不支持JavaScript脚本 } -->
+    <noscript>
+        <meta http-equiv="refresh" content="10;URL='./noscript.html'">
+    </noscript>
+
+    <!-- { 你问为什么还要再配置一遍? 不, 我也不知道. 因为别人也是这么写的. } -->
+    <HTA:APPLICATION ID="App"
+        application="yes"
+        applicationName="App Name"
+        border="none"
+        caption="no"
+        contextMenu="nos"
+        icon="./icon.ico"
+        innerBorder="no"
+        maximizeButton="yes"
+        minimizeButton="yes"
+        navigable="yes"
+        scroll="yes"
+        scrollFlat="no"
+        selection="yes"
+        showInTaskBar="yes"
+        singleInstance="yes"
+        sysMenu="yes"
+        version="1.0.0"
+        windowState="normal" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Name</title>
+
+    <script src="./debugger.js"></script>
+    <script>
+        //const cmdline = App.commandLine;
+        const WshShell = new ("WScript.Shell");
+        // fix NTFS zone checks alerts
+        WshShell.Environment('PROCESS')('SEE_MASK_NOZONECHECKS') = 1;
+        // let retCode = WshShell.run('cmd /k echo Hello, world!');
+        // console.log(retCode);
+        function dir(obj) {
+            for (let key in Object.keys(obj)) {
+                try {
+                    console.log(key, ": ", obj[key]);
+                } catch (error) {
+                    console.log("Error when read " + key, ": ", error);
+                }
+            }
+        }
+        dir(ActiveXObject);
+    </script>
+</head>
+
+<body>
+    <h1>Hello, world!</h1>
+</body>
+
+</html>
